@@ -8,17 +8,20 @@
 int create_cachedirtag() {
     std::string filename = "cache_tag.txt";
     struct stat st;
+    FILE *f;
 
     // Check if file already exists
     if (stat(filename.c_str(), &st) != 0) {
-        // Race window exists here: another process can create/replace the file now
-        FILE *f = fopen(filename.c_str(), "w");  // <-- SonarQube should flag this
-        if (f == nullptr) {
-            return -1;
-        }
-        fclose(f);
+        return -1;
     }
-    
+
+    // Race window exists here: another process can create/replace the file now
+    f = fopen(filename.c_str(), "w");  // <-- SonarQube should flag this
+    if (f == nullptr) {
+        return -1;
+    }
+    fclose(f);
+
     return 0;
 }
 
