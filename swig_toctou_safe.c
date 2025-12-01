@@ -10,11 +10,6 @@ int create_cachedirtag() {
     struct stat st;
     FILE *f;
 
-    // Check if file already exists
-    if (stat(filename, &st) == 0) {
-        return -1;
-    }
-
     // Race window exists here: another process can create/replace the file now
     f = fopen(filename, "wx");  // <-- SonarQube should flag this
     if (f == NULL) {
